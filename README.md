@@ -13,7 +13,7 @@ Because Redzone only moves items that need to be moved to keep the list contiguo
 Drawbacks of Redzone are that it is unstable, i.e.: it will reorder the keep elements in your list; and it needs a list of items to delete (the removal list 
 cannot contain duplicates).
 
-For more details on the algorithm, its performance, and a proof of correctness, see the paper: `Redzone paper.pdf`.
+For more details on the algorithm, its performance, and a proof of correctness, see the paper: [`Redzone paper.pdf`](https://github.com/JBontes/redzone/blob/main/RedZone%20paper.pdf).
 
 
 # citation
