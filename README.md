@@ -5,8 +5,15 @@ Stream compaction is the parallel removal of *k* items from a list with *n* tota
 However, sequential algorithms are often faster because they take O(*k*) time. Redzone is a parallel algorithm that removes items in O(*k*) time. 
 It has low constant overhead as is typically faster than O(n) parallel stream compaction when *k* < 1/2*n*, and orders of magnitude faster if _k_ << _n_.
 
-Drawbacks of Redzone are that it is unstable, i.e.: it will reorder the keep elements in your list and that it needs a list of items to delete (and that list 
-cannot contain duplicates.
+The parallel deletion fills holes created by removals with non-deleted items from the tail. In the same way that sequential algorithms typically work. 
+It performs some extra work to prevent data races. If an item is not deleted and not part of the tail items used to fill holes, it will not move them, which
+may be beneficial if links (e.g.: pointers) exist that reference your items. 
+Because Redzone only moves items that need to be moved to keep the list contiguous, it does no more work than necessary.
+
+Drawbacks of Redzone are that it is unstable, i.e.: it will reorder the keep elements in your list; and it needs a list of items to delete (the removal list 
+cannot contain duplicates).
+
+For more details on the algorithm, its performance, and a proof of correctness, see the paper: `Redzone paper.pdf`.
 
 
 # citation
