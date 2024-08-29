@@ -1,4 +1,4 @@
-# redzone
+# Redzone algorithm
 Redzone: fast stream compaction: removing k items from a list in parallel O(k) time
 
 Stream compaction is the parallel removal of *k* items from a list with *n* total items. Current parallel deletion algorithm use parition which takes O(n) time.
@@ -15,8 +15,28 @@ cannot contain duplicates).
 
 For more details on the algorithm, its performance, and a proof of correctness, see the paper: [`Redzone paper.pdf`](https://github.com/JBontes/redzone/blob/main/RedZone%20paper.pdf).
 
+# Compile and run
 
-# citation
+A version of the algorithm for both CPUs and GPUs is included. The CPU code uses C++20 and has been tested on both Windows (MSVC) and Linux (Clang). 
+The GPU code uses [NVCC 12 (from the CUDA 12 toolkit)](https://developer.nvidia.com/cuda-downloads) and runs both on Windows and Linux. Because the demo code uses asynchronous memory transfer it requires compute capacility 70 (Volta) or higher.
+
+To compile the full test you'll need to install [Intel's ~~tbb~~ oneAPI library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onetbb-download.html)
+
+## Compilation
+```
+//debug
+nvcc -std c++20 -arch=native --extended-lambda --expt-relaxed-constexpr -I"include_path_for_tbb" -L"library_path_for_tbb" tests.cu
+//release
+nvcc -O3 -g -DNDEBUG -std c++20 -arch=native --extended-lambda --expt-relaxed-constexpr -I"include_path_for_tbb" -L"include_path_for_tbb" tests.cu -o tests2
+//On my Windows system
+//include_path_for_tbb = "C:\Program Files (x86)\Intel\oneAPI\tbb\2021.12\include"
+//library_path_for_tbb = "C:\Program Files (x86)\Intel\oneAPI\tbb\2021.12\lib"
+//
+```
+
+Make sure that `tbb12_debug.dll` and `tbb12.dll` are in the path, so that the application can find them.
+
+# Citation
 
 If you use this algorithm in your research, please cite it as: 
 
